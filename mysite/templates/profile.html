@@ -1,0 +1,52 @@
+{% extends "temnplaes/base.html" %}
+
+{% block main %}
+<div class="row">
+    <div class="col-9">
+        <h3>@{{ user.username }}</h3>
+
+        {% if user.tweet.all %}
+            {% for tweet in user.tweet.all %}
+                <div class="card" style="margin-bottom: 20px;">
+                    <div class="card-body">
+                        <h5 class="card-title">@{{ tweet.user.username }}</h5>
+                        <p class="cerd-text"><b>{{ tweet.created_at }}</b> - {{ tweet.body }}</p>
+                    </div>
+            {% endfor %}
+        {% else %}
+            <p>No Tweet Yet</p>
+        {% endif %}
+    </div>
+
+    <div class="col-9">
+        <h3>Add tweet</h3>
+        {% if forms.errors %}
+            {% for field in form %}
+                {% for error in form.error %}
+                    <div class="alert alert-danger">
+                        <b>{{ error|escape }}</b>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <b>{{ error|escape }}</b>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form action="/{{ request.user.username }}/" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field }}
+                </div>
+            {% endfor %}
+
+            <input type="hidden" value="{{ request.path }}" name="redirect">
+            <input type="submit" value="Post tweet" class="btn btn-primary">
+        </form>
+    </div>
+</div>
+
+{% endblock main %}
