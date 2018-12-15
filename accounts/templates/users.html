@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div class="row">
+    <h1>{{ title }}</h1>
+    <ul>
+        {% for tweeter in tweeterprofiles %}
+            <li><a href="/{{ tweeter.user.username }}/">@{{ tweeter.user.username }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock main %}

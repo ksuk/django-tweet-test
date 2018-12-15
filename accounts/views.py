@@ -60,3 +60,15 @@ def profiles(request, username):
         return render(request, "profile.html", {"user": user, "form": form})
     else:
         return redirect("/")
+
+
+def follows(request, username):
+    user = User.objects.get(username=username)
+    tweeterprofiles = user.tweeterprofile.follows
+    return render(request, "users.html", {"title": "Follows", "tweeterprofiles": tweeterprofiles})
+
+
+def followers(request, username):
+    user = User.objects.get(username=username)
+    tweeterprofiles = user.tweeterprofile.followed_by
+    return render(request, "user.html", {"title": "Followers", "tweeterprofiles": tweeterprofiles})
